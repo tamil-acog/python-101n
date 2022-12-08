@@ -1,0 +1,3 @@
+tasks:
+  - remove_stop_words
+  - upper_case
