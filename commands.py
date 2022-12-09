@@ -30,7 +30,7 @@ def yaml_config(line: str) -> str:
 
 
 @app.command()
-def process_text(input_file: str, output_file: str = None, opt: str = None) -> None:
+def process_text(input_file: str, output_file: str = None) -> None:
     if output_file is None:
         output_file = input_file + ".processed"
 
