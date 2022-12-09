@@ -2,9 +2,10 @@ import typer
 from typing import Callable
 import yaml
 
-from atk_training_tamil_p1.function_lookup import lookup
+from atk_training_tamil_p1.function_lookup import FunctionalLoader
 
 
+get = FunctionalLoader()
 app = typer.Typer()
 
 
@@ -21,7 +22,8 @@ def yaml_config(line: str) -> str:
     with open("config.yml", 'r') as lines:
         tasks = yaml.safe_load(lines)
     for i in range(len(tasks['tasks'])):
-        process_fun: Callable[[str], str] = lookup(tasks['tasks'][i])
+        print(tasks['tasks'][i])
+        process_fun: Callable[[str], str] = get.get_function(tasks['tasks'][i])
         if i == 0:
             processed_line = process_fun(line)
         else:
