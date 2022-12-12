@@ -1,3 +1,3 @@
 pipeline:
-  - remove_stop_words
-  - upper_case
+  - transform_remove_words
+  - transform_to_upper

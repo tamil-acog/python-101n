@@ -2,9 +2,9 @@ from typing import List, Callable
 
 import yaml
 
-from atk_training_tamil_p1.function_lookup import FunctionalLoader
+from atk_training_tamil_p1.file_loader import FunctionLoader
 
-load = FunctionalLoader()
+load = FunctionLoader()
 
 
 class TaskManager(object):
@@ -23,5 +23,7 @@ class TaskManager(object):
         task_names = yaml_data["pipeline"]
         tasks = []
         for task_name in task_names:
-            tasks.append(load.get_function(task_name))
+            print(task_name)
+            tasks.append(load.give_function(task_name))
+            print(tasks)
         return tasks
