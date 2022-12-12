@@ -13,7 +13,7 @@ class TaskManager(object):
 
     def execute_pipeline(self, line: str):
         for task in self.task_list:
-            line = task(line)
+            line = task.exec(self, line)
         return line
 
     @classmethod

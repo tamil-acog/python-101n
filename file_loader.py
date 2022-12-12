@@ -1,7 +1,7 @@
 # Loads the functions from a path and makes them available in a list.
 
 from typing import List, Callable
-from inspect import isfunction, getmembers
+from inspect import isfunction, getmembers, isclass
 import os
 import pathlib
 from importlib.machinery import SourceFileLoader
@@ -19,6 +19,7 @@ class FunctionLoader(object):
         if path_list is None:
             path_list = ["../tests"]
         self.function_list = {}
+        self.class_list = {}
         for path in path_list:
             self.load_files_from_path(path)
 
@@ -29,22 +30,29 @@ class FunctionLoader(object):
             loader = SourceFileLoader(module_name, file.as_posix())  # .load_module()
             module = loader.load_module()
             functions = getmembers(module, isfunction)
+            classes = getmembers(module, isclass)
+
+            # Print attributes that are classes
+            for (cls_name, cls) in classes:
+                logger.debug(f"{cls_name} adding. ")
+                self.class_list[cls_name] = cls
 
             # Print only the attributes that are functions
             for (func_name, func) in functions:
                 logger.debug(f"{func_name} adding. ")
                 self.function_list[func_name] = func
 
-    def get_function(self, function_name: str):
-        print(self.function_list)
-        return self.function_list.get(function_name)
+    def get_function(self, class_name: str):
+        print(self.class_list)
+        return self.class_list.get(class_name)
 
     def get_function_dict(self):
-        return self.function_list
+        return self.class_list
 
-    def give_function(self, function_name):
-        exec_function = self.get_function(function_name)
+    def give_function(self, class_name):
+        exec_function = self.get_function(class_name)
         print(exec_function)
         if exec_function is not None:
-            return self.function_list.get(function_name)
+            return self.class_list.get(class_name)
+
 
