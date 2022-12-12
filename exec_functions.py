@@ -16,7 +16,7 @@ class TransFormUpper(ExecFunction):
         pass
 
     def exec(self, in_record: str) -> str:
-        return in_record.upper()
+        yield in_record.upper()
 
 
 class TransFormLower(ExecFunction):
@@ -24,7 +24,7 @@ class TransFormLower(ExecFunction):
         pass
 
     def exec(self, in_record: str) -> str:
-        return in_record.lower()
+        yield in_record.lower()
 
 
 class TransFormRemoveWords(ExecFunction):
@@ -35,4 +35,4 @@ class TransFormRemoveWords(ExecFunction):
         words = in_record.split()
         stop_words = ["a", "an", "and", "the", "or", "A", "AN", "AND", "THE", "OR"]
         remaining_words = [word for word in words if word not in stop_words]
-        return " ".join(remaining_words)
+        yield " ".join(remaining_words)

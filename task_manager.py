@@ -14,7 +14,7 @@ class TaskManager(object):
     def execute_pipeline(self, line: str):
         for task in self.task_list:
             line = task.exec(self, line)
-        return line
+        yield line
 
     @classmethod
     def parse_yaml(cls, yaml_file):
@@ -23,7 +23,5 @@ class TaskManager(object):
         task_names = yaml_data["pipeline"]
         tasks = []
         for task_name in task_names:
-            print(task_name)
             tasks.append(load.give_function(task_name))
-            print(tasks)
         return tasks

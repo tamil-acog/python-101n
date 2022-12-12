@@ -7,12 +7,16 @@ app = typer.Typer()
 def apply_process_pipeline(input_file: str, output_file: str = None) -> None:
     """This function transforms the input file using the pipeline found in yaml file."""
     my_task_manager = TaskManager("./config.yml")
-    PreProcessor.process(input_file)
-    with open("./temp", 'r') as fp, open(output_file, 'w') as op:
-        lines = [line.rstrip() for line in fp]
-        for line in lines:
+    stream_processor = PreProcessor()
+    input_streams = stream_processor.process(input_file)
+    with open(output_file, 'w') as op:
+        for line in input_streams:
             transformed_line = my_task_manager.execute_pipeline(line)
-            print(transformed_line, file=op)
+            for lin in transformed_line:
+                if lin == '\n' or lin == '':
+                    pass
+                else:
+                    print(lin, file=op)
 
 
 @app.command()

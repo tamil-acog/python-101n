@@ -43,7 +43,6 @@ class FunctionLoader(object):
                 self.function_list[func_name] = func
 
     def get_function(self, class_name: str):
-        print(self.class_list)
         return self.class_list.get(class_name)
 
     def get_function_dict(self):
@@ -51,7 +50,6 @@ class FunctionLoader(object):
 
     def give_function(self, class_name):
         exec_function = self.get_function(class_name)
-        print(exec_function)
         if exec_function is not None:
             return self.class_list.get(class_name)
 
