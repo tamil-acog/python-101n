@@ -9,6 +9,7 @@ def apply_process_pipeline(input_file: str, output_file: str = None) -> None:
     my_task_manager = TaskManager("./config.yml")
     stream_processor = PreProcessor()
     input_streams = stream_processor.process(input_file)
+    print(type(input_streams))
     with open(output_file, 'w') as op:
         for line in input_streams:
             transformed_line = my_task_manager.execute_pipeline(line)

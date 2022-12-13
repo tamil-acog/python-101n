@@ -1,15 +1,17 @@
 from typing import List, Callable
 
-import yaml
+from atk_training_tamil_p1.yaml_parser import YamlParser
 
 from atk_training_tamil_p1.file_loader import FunctionLoader
 
 load = FunctionLoader()
+parser = YamlParser()
 
 
 class TaskManager(object):
     def __init__(self, yaml_file: str):
-        self.task_list: List[Callable[[str], str]] = TaskManager.parse_yaml(yaml_file)
+        self.yaml_tasks: List[Callable[[str], str]] = parser.parse_yaml(yaml_file, "task")
+        self.task_list: List[Callable[[str], str]] = TaskManager.match_function(self.yaml_tasks)
 
     def execute_pipeline(self, line: str):
         for task in self.task_list:
@@ -17,11 +19,8 @@ class TaskManager(object):
         yield line
 
     @classmethod
-    def parse_yaml(cls, yaml_file):
-        with open(yaml_file) as fp:
-            yaml_data = yaml.safe_load(fp)
-        task_names = yaml_data["pipeline"]
+    def match_function(cls, yaml_tasks: list[str]) -> List[Callable[[str], str]]:
         tasks = []
-        for task_name in task_names:
+        for task_name in yaml_tasks:
             tasks.append(load.give_function(task_name))
         return tasks
