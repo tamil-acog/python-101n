@@ -32,7 +32,6 @@ class FunctionLoader(object):
                 module_name = os.path.basename(os.path.splitext(file)[0])
                 loader = SourceFileLoader(module_name, file.as_posix())  # .load_module()
                 module = loader.load_module()
-                functions = getmembers(module, isfunction)
                 classes = getmembers(module, isclass)
 
                 # Print attributes that are classes
@@ -40,12 +39,6 @@ class FunctionLoader(object):
                     if cls_name == task:
                         logger.debug(f"{cls_name} adding. ")
                         self.class_list[cls_name] = cls
-
-                # Print only the attributes that are functions
-                for (func_name, func) in functions:
-                    if func_name == task:
-                        logger.debug(f"{func_name} adding. ")
-                        self.function_list[func_name] = func
 
     def get_function(self, class_name: str):
         return self.class_list.get(class_name)

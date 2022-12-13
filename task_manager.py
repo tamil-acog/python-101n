@@ -9,6 +9,7 @@ parser = YamlParser()
 
 
 class TaskManager(object):
+    """Description"""
     def __init__(self, yaml_file: str):
         self.yaml_tasks: List[Callable[[str], str]] = parser.parse_yaml(yaml_file, "task")
         self.task_list: List[Callable[[str], str]] = TaskManager.match_function(self.yaml_tasks)
