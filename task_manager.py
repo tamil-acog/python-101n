@@ -9,19 +9,20 @@ parser = YamlParser()
 
 
 class TaskManager(object):
-    """Description"""
+    """This is where all the background process are managed. Like Parsing the Yaml, getting the callable, executing
+        the steps listed in the yaml file"""
     def __init__(self, yaml_file: str):
         self.yaml_tasks: List[Callable[[str], str]] = parser.parse_yaml(yaml_file, "task")
         self.task_list: List[Callable[[str], str]] = TaskManager.match_function(self.yaml_tasks)
 
     def execute_pipeline(self, line: str):
         for task in self.task_list:
-            line = task.exec(self, line)
+            line: str = task.exec(self, line)
         yield line
 
     @classmethod
     def match_function(cls, yaml_tasks: list[str]) -> List[Callable[[str], str]]:
-        tasks = []
+        tasks: List[Callable[[str], str]] = []
         for task_name in yaml_tasks:
             tasks.append(load.give_function(task_name))
         return tasks
